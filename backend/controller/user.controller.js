@@ -45,10 +45,11 @@ const userLogin = async (req, res) => {
           res.status(201).json({
             msg: "login successfully",
             data: {
+              name: getUser.name,
               userid: getUser._id,
               email: getUser.email,
               pic: getUser.pic,
-              token: jwt.sign({ userID: getUser._id }, process.env.SECRET_KEY, {
+              token: jwt.sign({ id: getUser._id }, process.env.SECRET_KEY, {
                 expiresIn: "7d",
               }),
             },
@@ -77,8 +78,8 @@ const getUser = async (req, res) => {
         ],
       }
     : {};
-  // console.log(keyword);
-  const users = await User.find(keyword);
+  //console.log(req.user);
+  const users = await User.find(keyword).find({ _id: { $ne: req.user._id } });
   res.send(users);
 };
 
