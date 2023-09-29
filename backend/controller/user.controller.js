@@ -79,7 +79,9 @@ const getUser = async (req, res) => {
       }
     : {};
   //console.log(req.user);
-  const users = await User.find(keyword).find({ _id: { $ne: req.user._id } });
+  const users = await User.find(keyword)
+    .find({ _id: { $ne: req.user._id } })
+    .select("-password");
   res.send(users);
 };
 
