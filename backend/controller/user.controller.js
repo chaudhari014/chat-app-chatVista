@@ -6,7 +6,7 @@ dotenv.config();
 
 const userSignUp = async (req, res) => {
   const { name, email, password, pic } = req.body;
-  if (!name || !email || !password || !pic) {
+  if (!name || !email || !password) {
     res.status(400);
     throw new Error("please Enter all the Fields");
   }
@@ -21,7 +21,14 @@ const userSignUp = async (req, res) => {
       if (err) {
         res.status(403).json({ msg: err });
       }
-      const user = new User({ ...req.body, password: hash });
+      let obj = {
+        name: name,
+        email: email,
+      };
+      if (pic) {
+        obj.pic = pic;
+      }
+      const user = new User({ ...obj, password: hash });
       await user.save();
       res.status(201).json({
         _id: user._id,
@@ -46,7 +53,7 @@ const userLogin = async (req, res) => {
             msg: "login successfully",
             data: {
               name: getUser.name,
-              userid: getUser._id,
+              _id: getUser._id,
               email: getUser.email,
               pic: getUser.pic,
               token: jwt.sign({ id: getUser._id }, process.env.SECRET_KEY, {

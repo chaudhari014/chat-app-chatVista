@@ -20,6 +20,7 @@ import {
   DrawerCloseButton,
   Input,
   useToast,
+  Spinner,
 } from "@chakra-ui/react";
 import axios from "axios";
 import ProfileModal from "./ProfileModal";
@@ -29,13 +30,17 @@ import { useNavigate } from "react-router-dom";
 import LogOut from "./LogOut";
 import API from "../../API";
 import ChatLoading from "../ChatLoading";
+import UserListItem from "../UserListItem";
 const SideDrawer = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(false);
   const [searchResult, setSearchResult] = useState([]);
-  const { user } = ChatState();
+  const [loadingChat, setLoadingChat] = useState(false);
+
+  const { user, setSelectedChat, chats, setChats } = ChatState();
   const navigate = useNavigate();
+
   const LogOutHandler = () => {
     localStorage.removeItem("userInfo");
     navigate("/");
@@ -68,6 +73,39 @@ const SideDrawer = () => {
     } catch (error) {
       setLoading(false);
       console.log(error);
+      toast({
+        position: "top-left",
+        title: `Error`,
+        description: "Failed to Load Result",
+        status: "error",
+        duration: 4000,
+        isClosable: true,
+      });
+    }
+  };
+  const accessChat = async (userId) => {
+    console.log(userId);
+    try {
+      setLoadingChat(true);
+      const config = {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          authorization: `Bearer ${user.token}`,
+        },
+        body: JSON.stringify({ userID: userId }),
+      };
+      const response = await fetch(`${API}/api/chat`, config);
+      const result = await response.json();
+      if (!chats.find((el) => el._id === result._id))
+        setChats([result, ...chats]);
+      console.log(result);
+      setSelectedChat(result);
+      setLoadingChat(false);
+      onClose();
+    } catch (error) {
+      console.log(error);
+      setLoadingChat(false);
       toast({
         position: "top-left",
         title: `Error`,
@@ -155,7 +193,19 @@ const SideDrawer = () => {
               />
               <Button onClick={handleSearch}>Search</Button>
             </Box>
-            {loading ? <ChatLoading /> : <span>results</span>}
+            {loading ? (
+              <ChatLoading />
+            ) : (
+              searchResult?.map((user) => (
+                <UserListItem
+                  key={user._id}
+                  user={user}
+                  flag={true}
+                  handleFunction={() => accessChat(user._id)}
+                />
+              ))
+            )}
+            {loadingChat && <Spinner ml={"auto"} display={"flex"} />}
           </DrawerBody>
         </DrawerContent>
       </Drawer>

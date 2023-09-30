@@ -65,14 +65,11 @@ const Signup = () => {
     e.preventDefault();
     setloading(true);
     const { name, email, password, pic } = formdata;
-    if (!name || !email || !password || !pic) {
+    if (!name || !email || !password) {
       toast({
         position: "top",
         title: `Please select ${
-          (!name && "name") ||
-          (!email && "email") ||
-          (!password && "password") ||
-          (!pic && "picture")
+          (!name && "name") || (!email && "email") || (!password && "password")
         }`,
         status: "warning",
         duration: 4000,
@@ -99,6 +96,7 @@ const Signup = () => {
       });
 
       setloading(false);
+      window.location.reload();
       navigate("/");
     } catch (error) {
       console.log(error, "ERROR");
