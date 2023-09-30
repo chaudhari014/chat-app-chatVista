@@ -5,8 +5,9 @@ import { AddIcon } from "@chakra-ui/icons";
 import API from "../../API";
 import { getSender } from "../chatLogic/ChatLogic";
 import ProfileModal from "./ProfileModal";
+import GroupChatModal from "./GroupChatModal";
 
-const MyChats = () => {
+const MyChats = ({ fetchAgain }) => {
   const [loggedUser, setLoggedUser] = useState();
   const { user, setSelectedChat, chats, setChats, selectedChat } = ChatState();
   const toast = useToast();
@@ -23,7 +24,7 @@ const MyChats = () => {
       const result = await response.json();
       setChats(result);
     } catch (error) {
-      console.log(error);
+      //console.log(error);
       toast({
         position: "top",
         title: `Error`,
@@ -37,7 +38,8 @@ const MyChats = () => {
   useEffect(() => {
     setLoggedUser(JSON.parse(localStorage.getItem("userInfo")));
     fetchChats();
-  }, []);
+  }, [fetchAgain]);
+  console.log(selectedChat, "sele");
   return (
     <Box
       display={{ base: selectedChat ? "none" : "flex", md: "flex" }}
@@ -60,13 +62,15 @@ const MyChats = () => {
         alignItems="center"
       >
         <Text> My Chat</Text>
-        <Button
-          display="flex"
-          fontSize={{ base: "17px", md: "10px", lg: "17px" }}
-          rightIcon={<AddIcon />}
-        >
-          New Group Chat
-        </Button>
+        <GroupChatModal>
+          <Button
+            display="flex"
+            fontSize={{ base: "17px", md: "10px", lg: "17px" }}
+            rightIcon={<AddIcon />}
+          >
+            New Group Chat
+          </Button>
+        </GroupChatModal>
       </Box>
       <Box
         display="flex"
@@ -84,8 +88,16 @@ const MyChats = () => {
               <Box
                 onClick={() => setSelectedChat(chat)}
                 cursor="pointer"
-                bg={selectedChat._id === chat._id ? "#38B2AC" : "#E8E8E8"}
-                color={selectedChat._id === chat._id ? "white" : "black"}
+                bg={
+                  selectedChat && selectedChat._id === chat._id
+                    ? "#38B2AC"
+                    : "#E8E8E8"
+                }
+                color={
+                  selectedChat && selectedChat._id === chat._id
+                    ? "white"
+                    : "black"
+                }
                 px={3}
                 display={"flex"}
                 py={2}

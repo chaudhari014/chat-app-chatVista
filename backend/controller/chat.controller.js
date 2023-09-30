@@ -64,7 +64,7 @@ fetchChats = async (req, res) => {
   }
 };
 createGroupChat = async (req, res) => {
-  const { users } = req.body;
+  const { users, chatName } = req.body;
   if (users.length < 2) {
     return res.status(400).json({ error: "more than 2 user required" });
   }
@@ -72,7 +72,7 @@ createGroupChat = async (req, res) => {
   //   users = [...new Set(users)];
   try {
     let groupChat = {
-      chatName: req.body.name,
+      chatName: chatName,
       users: users,
       isGroupChat: true,
       groupAdmin: req.user._id,
