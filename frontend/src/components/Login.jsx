@@ -50,7 +50,7 @@ const Login = () => {
       const res = await data.json();
       toast({
         position: "top",
-        title: `Registration Sccessfull`,
+        title: `Login Sccessfull`,
         status: "success",
         duration: 4000,
         isClosable: true,

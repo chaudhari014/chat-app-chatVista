@@ -4,8 +4,9 @@ const { chats } = require("./data/chat");
 const cors = require("cors");
 const { userRoute } = require("./routes/user.route");
 const { chatRouteHandler } = require("./routes/chat.route");
-const app = express();
+const { messageRoutes } = require("./routes/message.route");
 
+const app = express();
 app.use(cors());
 app.use(express.json());
 
@@ -15,6 +16,7 @@ app.get("/", (req, res) => {
 
 app.use("/api/user", userRoute);
 app.use("/api/chat", chatRouteHandler);
+app.use("/api/message", messageRoutes);
 app.use((req, res) => {
   res.status(404).json({ error: "Endpoint not found" });
 });

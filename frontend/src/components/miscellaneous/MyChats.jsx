@@ -106,9 +106,9 @@ const MyChats = ({ fetchAgain }) => {
               >
                 <ProfileModal
                   user={
-                    loggedUser && chat.users[0]._id === loggedUser._id
-                      ? chat.users[1]
-                      : chat.users[0]
+                    loggedUser && chat.users[0]?._id === loggedUser._id
+                      ? chat?.users[1]
+                      : chat?.users[0]
                   }
                 >
                   <Avatar
@@ -116,22 +116,22 @@ const MyChats = ({ fetchAgain }) => {
                     size={"sm"}
                     cursor={"pointer"}
                     name={
-                      loggedUser && chat.users[0]._id === loggedUser._id
-                        ? chat.users[1].name
-                        : chat.users[0].name
+                      loggedUser && chat.users[0]?._id === loggedUser?._id
+                        ? chat.users[1]?.name
+                        : chat.users[0]?.name
                     }
                     src={
-                      loggedUser && chat.users[0]._id === loggedUser._id
-                        ? chat.users[1].pic
-                        : chat.users[0].pic
+                      loggedUser && chat.users[0]?._id === loggedUser?._id
+                        ? chat.users[1]?.pic
+                        : chat.users[0]?.pic
                     }
                   />
                 </ProfileModal>
                 <Box>
                   <Text>
                     {!chat.isGroupChat
-                      ? getSender(loggedUser, chat.users)
-                      : chat.chatName}{" "}
+                      ? getSender(loggedUser, chat?.users)
+                      : chat?.chatName}{" "}
                   </Text>
                 </Box>
               </Box>

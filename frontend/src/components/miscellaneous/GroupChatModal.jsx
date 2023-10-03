@@ -30,7 +30,7 @@ const GroupChatModal = ({ children }) => {
   const [loading, setLoading] = useState(false);
   const toast = useToast();
 
-  const { user, chats, setChats } = ChatState();
+  const { user, chats, setChats, setSelectedChat } = ChatState();
   const handleSearch = async (query) => {
     setSearch((pre) => query);
     if (!query) {
@@ -49,6 +49,7 @@ const GroupChatModal = ({ children }) => {
       const data = await fetch(`${API}/api/user?search=${query}`, config);
       const result = await data.json();
       console.log(result);
+
       setLoading(false);
       setSearchResult(result);
     } catch (error) {
@@ -90,6 +91,9 @@ const GroupChatModal = ({ children }) => {
       const response = await fetch(`${API}/api/chat/group`, config);
       const result = await response.json();
       setChats([result, ...chats]);
+
+      setSelectedUsers([]);
+      setSelectedChat(result);
       onClose();
       toast({
         title: "New Group Chat Created!",
@@ -121,10 +125,14 @@ const GroupChatModal = ({ children }) => {
       return;
     }
     setSelectedUsers([...selectedUsers, userToAdd]);
+    console.log("enter");
+    // setSearchResult([]);
+    // setSearch("");
   };
   const handleDelete = (deleteUser) => {
     setSelectedUsers(selectedUsers.filter((el) => el._id !== deleteUser._id));
   };
+  console.log(search);
   return (
     <>
       <span onClick={onOpen}>{children}</span>

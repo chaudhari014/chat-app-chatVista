@@ -36,7 +36,7 @@ const ProfileModal = ({ user, children }) => {
             display={"flex"}
             justifyContent={"center"}
           >
-            {user.name}
+            {user?.name}
           </ModalHeader>
           <ModalCloseButton />
           <ModalBody
@@ -48,10 +48,10 @@ const ProfileModal = ({ user, children }) => {
             <Image
               borderRadius={"full"}
               boxSize={"200px"}
-              src={user.pic}
-              alt={user.name}
+              src={user?.pic}
+              alt={user?.name}
             />
-            <Text fontSize={"2xl"}>{user.email}</Text>
+            <Text fontSize={"2xl"}>{user?.email}</Text>
           </ModalBody>
 
           <ModalFooter>

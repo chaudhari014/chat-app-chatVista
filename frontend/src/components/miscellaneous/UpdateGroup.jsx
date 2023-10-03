@@ -21,7 +21,7 @@ import { ChatState } from "../../Context/chatProvider";
 import UserBadgeItem from "./UserBadgeItem";
 import API from "../../API";
 import UserListItem from "../UserListItem";
-const UpdateGroup = ({ fetchAgain, setFetchAgain }) => {
+const UpdateGroup = ({ fetchAgain, setFetchAgain, fetchMessages }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [groupChatName, setGroupChatName] = useState();
   const [search, setSearch] = useState("");
@@ -63,11 +63,12 @@ const UpdateGroup = ({ fetchAgain, setFetchAgain }) => {
       user1._id === user._id ? setSelectedChat() : setSelectedChat(result);
       setFetchAgain(!fetchAgain);
       fetchMessages();
+      //   fetchMessages();
       setLoading(false);
     } catch (error) {
       toast({
         title: "Error Occured!",
-        description: error.response.data.message,
+        description: error,
         status: "error",
         duration: 5000,
         isClosable: true,
