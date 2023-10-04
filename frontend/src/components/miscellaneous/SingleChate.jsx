@@ -181,7 +181,6 @@ const SingleChate = ({ fetchAgain, setFetchAgain }) => {
             w="100%"
             h="100%"
             borderRadius="lg"
-            border={"1px solid red"}
             overflowY="hidden"
           >
             {loading ? (
