@@ -49,8 +49,8 @@ const Signup = () => {
     })
       .then((res) => res.json())
       .then((data) => {
-        //console.log(data);
-        setFormdata({ ...formdata, pic: data.url.toString() });
+        console.log(data.secure_url.toString());
+        setFormdata({ ...formdata, pic: data.secure_url.toString() });
         // setloading(false);
 
         setupload(false);
@@ -128,7 +128,7 @@ const Signup = () => {
           shadow={"none"}
           borderRadius={"4px"}
           fontWeight={600}
-          _focusVisible={"none"}
+          // _focusVisible={"none"}
           placeholder="Enter Your Name"
           //   bg={"white"}
           onChange={(e) => handleInput(e)}
@@ -145,7 +145,7 @@ const Signup = () => {
           shadow={"none"}
           borderRadius={"4px"}
           fontWeight={600}
-          _focusVisible={"none"}
+          // _focusVisible={"none"}
           placeholder="Enter Your email"
           //   bg={"white"}
           onChange={(e) => handleInput(e)}
@@ -163,7 +163,7 @@ const Signup = () => {
             shadow={"none"}
             borderRadius={"4px"}
             fontWeight={600}
-            _focusVisible={"none"}
+            // _focusVisible={"none"}
             placeholder="Enter Your password"
             // bg={"white"}
             onChange={(e) => handleInput(e)}

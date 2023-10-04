@@ -78,7 +78,7 @@ const Login = () => {
   };
   return (
     <VStack spacing={"5px"}>
-      <FormControl id="email" isRequired>
+      <FormControl id="email2" isRequired>
         <FormLabel>Email</FormLabel>
         <Input
           type="email"
@@ -89,13 +89,13 @@ const Login = () => {
           shadow={"none"}
           borderRadius={"4px"}
           fontWeight={600}
-          _focusVisible={"none"}
+          // _focusVisible={"none"}
           placeholder="Enter Your email"
           //   bg={"white"}
           onChange={(e) => handleInput(e)}
         />
       </FormControl>
-      <FormControl id="password" isRequired>
+      <FormControl id="password2" isRequired>
         <FormLabel>Password</FormLabel>
         <InputGroup>
           <Input
@@ -107,7 +107,7 @@ const Login = () => {
             shadow={"none"}
             borderRadius={"4px"}
             fontWeight={600}
-            _focusVisible={"none"}
+            // _focusVisible={"none"}
             placeholder="Enter Your password"
             // bg={"white"}
             onChange={(e) => handleInput(e)}

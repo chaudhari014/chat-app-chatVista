@@ -1,2 +1,2 @@
-const API = "https://chatvista2.onrender.com";
+const API = "http://localhost:8070";
 export default API;
