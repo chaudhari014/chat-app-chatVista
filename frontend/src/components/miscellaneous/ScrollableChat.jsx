@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import ScrollableFeed from "react-scrollable-feed";
 
 import {
@@ -6,12 +6,20 @@ import {
   isSameSender,
   isSameSenderMargin,
   isSameUser,
+  sameLoginUser,
 } from "../chatLogic/ChatLogic";
-import { Avatar, Tooltip, Text } from "@chakra-ui/react";
+import { Avatar, Tooltip, Text, Box, VStack } from "@chakra-ui/react";
 import { ChatState } from "../../Context/chatProvider";
-import "moment-timezone";
-import moment from "moment";
+import API from "../../API";
+import { useEffect } from "react";
+
 const ScrollableChat = ({ messages }) => {
+  const scrollableRef = useRef(null);
+  useEffect(() => {
+    if (scrollableRef.current) {
+      scrollableRef.current.scrollTop = scrollableRef.current.scrollHeight;
+    }
+  }, [messages]);
   const getDate = (date) => {
     const monthsArray = [
       "January",
@@ -56,15 +64,23 @@ const ScrollableChat = ({ messages }) => {
   };
 
   const { user } = ChatState();
+
   return (
-    <ScrollableFeed>
-      {messages &&
-        messages.map((m, i) => (
-          <div style={{ display: "flex" }} key={m._id}>
-            {(isSameSender(messages, m, i, user._id) ||
-              isLastMessage(messages, m, i, user._id)) && (
-              <>
-                <Tooltip
+    <ScrollableFeed maxWidth={"200px"} overflowY="scroll" overflowX={"hidden"}>
+      <div
+        style={{
+          overflowY: "auto",
+          maxHeight: "500px", // Adjust as needed
+        }}
+        ref={scrollableRef}
+      >
+        {messages &&
+          messages.map((m, i) => (
+            <div style={{ display: "" }} key={m._id}>
+              {(isSameSender(messages, m, i, user._id) ||
+                isLastMessage(messages, m, i, user._id)) && (
+                <>
+                  {/* <Tooltip
                   label={m.sender.name}
                   placement="bottom-start"
                   hashArrow
@@ -77,56 +93,65 @@ const ScrollableChat = ({ messages }) => {
                     name={m.sender.name}
                     src={m.sender.pic}
                   />
-                </Tooltip>
-              </>
-            )}
+                </Tooltip> */}
+                </>
+              )}
 
-            {!UpdateDate(m.createdAt) ? (
-              <Text
-                style={{
-                  marginLeft: "10px",
-                  marginTop: "10px",
-                  fontWeight: "bold",
-                  marginLeft: "48%",
-                }}
-              >
-                {getDate(m.createdAt)}
-              </Text>
-            ) : (
-              ""
-            )}
+              {!UpdateDate(m.createdAt) ? (
+                <div
+                  style={{
+                    width: "100%",
+                    textAlign: "center",
 
-            <span
-              style={{
-                backgroundColor: `${
-                  m.sender._id === user._id ? "#Bee3F8" : "#B9F5D0"
-                }`,
-                borderRadius: "20px",
-                padding: "5px 15px",
-                maxWidth: "75%",
-                marginLeft: isSameSenderMargin(messages, m, i, user._id),
-                marginTop: isSameUser(messages, m, i, user._id) ? 3 : 10,
-              }}
-            >
-              {m.sender._id !== user._id ? (
-                <Text color={"blue"} size={"4xs"}>
-                  ~{m.sender.name}
-                </Text>
+                    color: "#455A64",
+                  }}
+                >
+                  {getDate(m.createdAt)}
+                </div>
               ) : (
                 ""
               )}
-              {m.content}
-              <Text
-                textAlign={"end"}
-                fontSize="xs"
-                fontWeight={500}
-                color={"#455A64"}
-              >
-                {getFormattedTime(m.createdAt)}
-              </Text>
-            </span>
-          </div>
-        ))}
+              <div style={{ display: "flex" }}>
+                <span
+                  style={{
+                    display: "inline-block",
+                    flexDirection: "column",
+                    backgroundColor: `${
+                      m.sender._id === user._id ? "#Bee3F8" : "#B9F5D0"
+                    }`,
+                    maxWidth: "400px",
+                    minWidth: "50px",
+                    borderRadius: "20px",
+                    padding: "5px 15px",
+                    alignSelf: sameLoginUser(m, user)
+                      ? "flex-end"
+                      : "flex-start",
+                    left: "80%",
+                    marginLeft: isSameSenderMargin(messages, m, i, user._id),
+                    marginTop: isSameUser(messages, m, i, user._id) ? 3 : 10,
+                  }}
+                >
+                  {m.sender._id !== user._id && m.chat.isGroupChat ? (
+                    <Text color={"blue"} size={"4xs"}>
+                      ~{m.sender.name}
+                    </Text>
+                  ) : (
+                    ""
+                  )}
+                  {m.content}
+                  <Text
+                    textAlign={"end"}
+                    fontSize="xs"
+                    fontWeight={500}
+                    color={"#455A64"}
+                  >
+                    {getFormattedTime(m.createdAt)}
+                  </Text>
+                </span>
+              </div>
+            </div>
+          ))}
+      </div>
     </ScrollableFeed>
   );
 };
