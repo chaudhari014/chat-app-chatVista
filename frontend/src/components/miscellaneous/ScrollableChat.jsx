@@ -66,11 +66,12 @@ const ScrollableChat = ({ messages }) => {
   const { user } = ChatState();
 
   return (
-    <ScrollableFeed maxWidth={"200px"} overflowY="scroll" overflowX={"hidden"}>
+    <ScrollableFeed>
       <div
         style={{
-          overflowY: "auto",
-          maxHeight: "500px", // Adjust as needed
+          overflowY: "scroll",
+          maxHeight: "100vh",
+          height: "100%",
         }}
         ref={scrollableRef}
       >
