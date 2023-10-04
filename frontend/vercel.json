@@ -1,9 +1,3 @@
 {
-  "version": 2,
-  "install": {
-    "env": {
-      "CI": "1",
-      "FORCE": "true"
-    }
-  }
+  "installCommand": "npm --force install"
 }
