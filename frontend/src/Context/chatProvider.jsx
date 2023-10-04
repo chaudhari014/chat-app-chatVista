@@ -9,13 +9,13 @@ const ChatProvider = ({ children }) => {
   const [chats, setChats] = useState([]);
   const [notification, setNotification] = useState([]);
   const navigate = useNavigate();
-  useEffect(() => {
-    const userInfo = JSON.parse(localStorage.getItem("userInfo"));
-    setuser(userInfo);
-    if (!userInfo) {
-      navigate("/");
-    }
-  }, [navigate]);
+
+  const userInfo = JSON.parse(localStorage.getItem("userInfo"));
+  setuser(userInfo);
+  if (!userInfo) {
+    navigate("/");
+    return;
+  }
   return (
     <ChatContext.Provider
       value={{
