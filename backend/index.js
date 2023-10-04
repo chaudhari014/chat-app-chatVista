@@ -1,6 +1,5 @@
 const express = require("express");
 const { connection } = require("./config/db");
-const { chats } = require("./data/chat");
 const cors = require("cors");
 const { userRoute } = require("./routes/user.route");
 const { chatRouteHandler } = require("./routes/chat.route");
@@ -24,9 +23,7 @@ app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).send("Something broke!");
 });
-// app.get("/chats", (req, res) => {
-//   res.send({ msg: chats });
-// });
+
 const server = app.listen(8070, async () => {
   try {
     await connection;
@@ -40,7 +37,7 @@ const server = app.listen(8070, async () => {
 const io = require("socket.io")(server, {
   pingTimeout: 40000,
   cors: {
-    origin: "http://127.0.0.1:5173",
+    origin: "https://chatvista-3ig87s9jd-chaudhari014.vercel.app",
   },
 });
 
@@ -53,14 +50,14 @@ io.on("connection", (socket) => {
 
   socket.on("join chat", (room) => {
     socket.join(room);
-    console.log("join" + room);
+    // console.log("join" + room);
   });
 
   socket.on("typing", (room) => socket.in(room).emit("typing"));
   socket.on("stop typing", (room) => socket.in(room).emit("stop typing"));
 
   socket.on("new message", (newMessageRecieved) => {
-    console.log(newMessageRecieved);
+    // console.log(newMessageRecieved);
     let chat = newMessageRecieved.chat;
     if (!chat.users) return console.log("chat user not defined");
     chat.users.forEach((user) => {
