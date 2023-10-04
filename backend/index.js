@@ -37,7 +37,7 @@ const server = app.listen(8070, async () => {
 const io = require("socket.io")(server, {
   pingTimeout: 40000,
   cors: {
-    origin: "https://chatvista-4vthrpfpu-chaudhari014.vercel.app",
+    origin: "https://chat-app-chat-vista.vercel.app",
   },
 });
 
