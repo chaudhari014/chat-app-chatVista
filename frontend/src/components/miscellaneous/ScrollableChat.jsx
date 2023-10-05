@@ -69,8 +69,8 @@ const ScrollableChat = ({ messages }) => {
     <ScrollableFeed>
       <div
         style={{
-          overflowY: "scroll",
-          maxHeight: "500px",
+          overflowY: "auto",
+          maxHeight: "calc(100vh - 228px)",
           height: "100%",
         }}
         ref={scrollableRef}

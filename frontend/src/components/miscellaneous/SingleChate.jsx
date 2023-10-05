@@ -179,9 +179,9 @@ const SingleChate = ({ fetchAgain, setFetchAgain }) => {
             p={3}
             bg="#E8E8E8"
             w="100%"
-            h="100%"
+            h="calc(100vh - 100px)"
             borderRadius="lg"
-            overflowY="hidden"
+            overflowY="scroll"
           >
             {loading ? (
               <Spinner
