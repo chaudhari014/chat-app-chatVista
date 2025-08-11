@@ -71,7 +71,7 @@ const userLogin = async (req, res) => {
      // throw new Error("Wrong Credential");
     }
   } catch (error) {
-    return res.status(400).send(`${error}`);
+    return res.status(400).send("Wrong Credential");
     //throw new Error(`${error}`);
   }
 };
