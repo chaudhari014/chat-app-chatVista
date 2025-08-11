@@ -12,8 +12,8 @@ const userSignUp = async (req, res) => {
   }
   const userExists = await User.findOne({ email });
   if (userExists) {
-    res.status(400);
-    throw new Error("User Already Exists");
+    return res.status(400).send("User Already Exists");
+    /throw new Error("User Already Exists");
   }
   try {
     bcrypt.hash(password, 2, async function (err, hash) {
@@ -38,8 +38,8 @@ const userSignUp = async (req, res) => {
       });
     });
   } catch (error) {
-    res.status(400);
-    throw new Error("failed to create the new user");
+    return res.status(400).send("failed to create the new user");
+    /throw new Error("failed to create the new user");
   }
 };
 const userLogin = async (req, res) => {
@@ -62,16 +62,16 @@ const userLogin = async (req, res) => {
             },
           });
         } else {
-          res.status(400);
+          return res.status(400).send("Wrong Credential");
          // throw new Error("Wrong Credential");
         }
       });
     } else {
-      res.status(400);
+      return res.status(400).send(`${error}`);
      // throw new Error("Wrong Credential");
     }
   } catch (error) {
-    res.status(400);
+    return res.status(400).send(`${error}`);
     //throw new Error(`${error}`);
   }
 };
