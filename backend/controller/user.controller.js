@@ -7,13 +7,13 @@ dotenv.config();
 const userSignUp = async (req, res) => {
   const { name, email, password, pic } = req.body;
   if (!name || !email || !password) {
-    res.status(400);
-    throw new Error("please Enter all the Fields");
+    return res.status(400).send("please Enter all the Fields");
+    //throw new Error("please Enter all the Fields");
   }
   const userExists = await User.findOne({ email });
   if (userExists) {
     return res.status(400).send("User Already Exists");
-    /throw new Error("User Already Exists");
+    //throw new Error("User Already Exists");
   }
   try {
     bcrypt.hash(password, 2, async function (err, hash) {
@@ -39,7 +39,7 @@ const userSignUp = async (req, res) => {
     });
   } catch (error) {
     return res.status(400).send("failed to create the new user");
-    /throw new Error("failed to create the new user");
+    //throw new Error("failed to create the new user");
   }
 };
 const userLogin = async (req, res) => {
