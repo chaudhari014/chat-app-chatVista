@@ -63,16 +63,16 @@ const userLogin = async (req, res) => {
           });
         } else {
           res.status(400);
-          throw new Error("Wrong Credential");
+         // throw new Error("Wrong Credential");
         }
       });
     } else {
       res.status(400);
-      throw new Error("Wrong Credential");
+     // throw new Error("Wrong Credential");
     }
   } catch (error) {
     res.status(400);
-    throw new Error(`${error}`);
+    //throw new Error(`${error}`);
   }
 };
 
